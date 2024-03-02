@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desmos</title>
+    <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="curves.js"></script>
+</head>
+
+<body>
+    <div id="calculator" style="position: absolute; inset: 0;"></div>
+    <script>
+        let elt = document.getElementById('calculator');
+        let calculator = Desmos.GraphingCalculator(elt);
+        let mathCoords = calculator.graphpaperBounds.mathCoordinates
+        let aspect = mathCoords.width / mathCoords.height
+        let width = 6000
+        let height = width / aspect;
+        console.log(curves)
+        calculator.setMathBounds({
+            left: -1000,
+            bottom: -1000,
+            right: width - 1000,
+            top: height - 1000,
+        })
+        calculator.setExpression({
+            latex: "T=-1",
+            id: "frame"
+        })
+        calculator.setExpression({
+            latex: String.raw`P_1=\left[\right]`,
+            points: false,
+            id: "p1"
+        })
+        calculator.setExpression({
+            latex: String.raw`P_2=\left[\right]`,
+            points: false,
+            id: "p2"
+        })
+        calculator.setExpression({
+            latex: String.raw`P_3=\left[\right]`,
+            points: false,
+            id: "p3"
+        })
+        calculator.setExpression({
+            latex: String.raw`P_4=\left[\right]`,
+            points: false,
+            id: "p4"
+        })
+        calculator.setExpression({
+            latex: String.raw`n=\operatorname{length}\left(P_{1}\right)`
+        })
+        calculator.setExpression({
+            latex: String.raw`c\left(i,t\right)=\left(1-t\right)^{3}P_{1}\left[i\right]+3\left(1-t\right)^{2}tP_{2}\left[i\right]+3\left(1-t\right)t^{2}P_{3}\left[i\right]+t^{3}P_{4}\left[i\right]`
+        })
+        calculator.setExpression({
+            latex: String.raw`c\left(\operatorname{floor}\left(nt\right)+1,\operatorname{mod}\left(nt,1\right)\right)`,
+            color: "#000000",
+            fill: true,
+            fillOpacity: 1
+        })
+
+        let frame = 0;
+
+        setInterval(() => {
+            const [p1, p2, p3, p4] = curves[frame]
+            calculator.setExpression({
+                latex: `T=${frame}`,
+                id: "frame"
+            })
+            calculator.setExpression({
+                latex: p1,
+                id: "p1"
+            })
+            calculator.setExpression({
+                latex: p2,
+                id: "p2"
+            })
+            calculator.setExpression({
+                latex: p3,
+                id: "p3"
+            })
+            calculator.setExpression({
+                latex: p4,
+                id: "p4"
+            })
+            frame++
+        }, 0)
+
+    </script>
+</body>
+
+</html>
